@@ -1,0 +1,23 @@
+{
+  "name": "angular2-boilerplate",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "postinstall": "tsd reinstall"
+  },
+  "devDependencies": {
+    "del": "^1.1.1",
+    "gulp": "git://github.com/gulpjs/gulp.git#4.0",
+    "gulp-concat": "^2.5.2",
+    "gulp-filter": "^2.0.2",
+    "gulp-flatten": "0.0.4",
+    "gulp-load-plugins": "^0.10.0",
+    "gulp-plumber": "^1.0.0",
+    "gulp-sass": "^2.0.1",
+    "gulp-tsc": "^0.9.5",
+    "gulp-util": "^3.0.4",
+    "gulp-watch": "^4.2.4",
+    "tsd": "^0.6.0",
+    "vinyl-paths": "^1.0.0"
+  }
+}
