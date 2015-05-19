@@ -17,8 +17,12 @@ var basePaths = {
 };
 
 var paths = {
+    assets: {
+        sources:    path.join( basePaths.sources, 'assets/**/*.*' ),
+        dest:       path.join( basePaths.dest, 'assets' )            
+    },
     styles: {
-        sources:    path.join( basePaths.sources, '**/*.scss'),
+        sources:    path.join( basePaths.sources, 'components/app/styles/app.scss' ),
         dest:   	path.join( basePaths.dest, 'styles' )
     },
     scripts: {
@@ -66,12 +70,6 @@ gulp.task( 'styles', function () {
 /**
  * Concat tasks 
  */
-gulp.task( 'concat:css', function() {
-    return gulp.src( path.join( paths.styles.dest, '**/*.css' ))
-        .pipe( plugins.concat( 'app.css' ))
-        .pipe( gulp.dest( basePaths.dest ));
-});
-
 gulp.task( 'concat:js', function() {
     return gulp.src( path.join( paths.scripts.dest, '**/*.js' ))
         .pipe( plugins.concat( 'app.js' ))
@@ -82,10 +80,6 @@ gulp.task( 'concat:js', function() {
 /**
  * Clean tasks 
  */
-gulp.task( 'clean:css', function( callback ) {
-     del( [ paths.styles.dest ], callback );
-});
-
 gulp.task( 'clean:js', function( callback ) {
     del( [ paths.scripts.dest ], callback );
 });
@@ -109,6 +103,11 @@ gulp.task( 'clean:dest', function( callback ) {
         .pipe( gulp.dest( paths.templates.dest ) );
  });
  
+ gulp.task( 'copy:assets', function() {
+     return gulp.src( paths.assets.sources )
+        .pipe( gulp.dest( paths.assets.dest ) ) 
+ });
+ 
  
 /**
 * File Watcher
@@ -119,11 +118,15 @@ gulp.task( 'watch', function() {
     );
     
     plugins.watch( paths.styles.sources, 
-        gulp.series( 'styles', 'concat:css', 'clean:css' )
+        gulp.series( 'styles' )
     );
     
     plugins.watch( paths.templates.sources,
         gulp.parallel( 'copy:templates' )
+    );
+    
+    plugins.watch( paths.assets.sources,
+        gulp.parallel( 'copy:assets' )    
     );
 });
  
@@ -133,11 +136,10 @@ gulp.task( 'watch', function() {
  */
 gulp.task( 'default', gulp.series(
     'styles',
-    'concat:css',
-    'clean:css',
     'scripts', 
     'concat:js', 
     'clean:js', 
     'copy:index',
+    'copy:assets',
     'copy:templates'   
 ));
